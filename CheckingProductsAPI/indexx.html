@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Checkout</title>
+</head>
+<body>
+
+    <h1>Product Checkout</h1>
+
+    <form id="checkoutForm">
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" name="productName" required>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <div id="responseContainer">
+        <!-- Response will be displayed here -->
+    </div>
+
+    <script>
+        function submitForm() {
+            // Get the productName from the input field
+            var productName = document.getElementById('productName').value;
+
+            // Make an AJAX request to check_data.php
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "check_data.php", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            // Set up the callback function to handle the response
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Display the response in the responseContainer
+                    document.getElementById('responseContainer').innerHTML = xhr.responseText;
+                }
+            };
+
+            // Send the productName as JSON in the request body
+            var data = JSON.stringify({ "productName": productName });
+            xhr.send(data);
+        }
+    </script>
+
+</body>
+</html>
